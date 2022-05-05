@@ -15,7 +15,16 @@ async function allUser() {
     return getUser;
 }
 
+async function getId(id) {
+    const getUser = await User.findByPk(id);
+    if (!getUser) {
+        throw new Error('User does not exist');
+    }
+    return getUser;
+}
+
 module.exports = {
     postUser,
     allUser,
+    getId,
 };

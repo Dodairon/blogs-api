@@ -26,7 +26,18 @@ async function allUser(req, res) {
   }
 }
 
+async function getId(req, res) {
+  const { id } = req.params;
+  try {
+    const getUser = await serviceUser.getId(id);
+    res.status(200).json(getUser);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
 module.exports = {
   postUser,
   allUser,
+  getId,
 };
