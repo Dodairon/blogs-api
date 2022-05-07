@@ -1,5 +1,6 @@
 const modelPost = require('../models/blogPost');
 const Category = require('../models/category');
+const modelUser = require('../models/user');
 
 async function addPost(title, content, userId, categoryIds) {
     const categoryId = categoryIds.map((id) => Category.findByPk(id));
@@ -13,11 +14,18 @@ async function addPost(title, content, userId, categoryIds) {
         content,
         userId,
     });
+    post.addCategory(categ);
     return post;
 }
 
 async function allPost() {
-        const postAll = await modelPost.findAll();
+        const postAll = await modelPost.findAll({
+            include: [{
+                model: modelUser, as: 'user',
+            }, {
+                model: Category, as: 'categories',
+            }],
+        });
         return postAll;
 }
 
